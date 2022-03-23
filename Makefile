@@ -69,7 +69,6 @@ gz:
 # \ merge
 MERGE  = Makefile README.md .gitignore apt.txt .clang-format $(S)
 MERGE += .vscode bin doc lib src tmp
-MERGE += requirements.txt
 
 .PHONY: dev shadow release zip
 
@@ -83,6 +82,11 @@ shadow:
 	git push -v
 	git checkout $@
 	git pull -v
+
+release:
+	git tag $(NOW)-$(REL)
+	git push -v --tags
+	$(MAKE) shadow
 
 ZIP = tmp/$(MODULE)_$(BRANCH)_$(NOW)_$(REL).src.zip
 zip:
